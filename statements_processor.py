@@ -15,29 +15,34 @@ class ExpensesProcessor:
         self.__file_name = file_name
         self.expenses = None
 
-    def get_header(file):
+    def get_header(self, file):
         head_line = ""
         for line in file:
             if "Fecha" in line and "Valor a" in line:
-                # TOFIX: write code to detect the head of the expenses table
+                # FIXME: write code to detect the head of the expenses table
                 head_line = line
         return head_line
 
+    @property
     def file_path(self):
         return self.__file_path
 
-    @fm.read_file(file_path)
-    def __get_expense_lines(file):
-        expenses = []
+    @staticmethod
+    def __get_expense_lines(self):
+        @fm.read_file(self.file_path)
+        def get_file(file):
+            expenses = []
+            for line in file:
+                if re.search(date_pattern, line):
+                    expenses.append(line)
 
-        for line in file:
-            if re.search(date_pattern, line):
-                expenses.append(line)
+            return expenses
 
-        return expenses
+        expenses = get_file()
+        return expenses 
 
+    @staticmethod
     def __parse_expenses(expenses):
-        # Clean the expenses detected
         spaces_pattern = r" {2,}"
         enter_pattern = r"\n"
         expense_records = []
@@ -53,13 +58,16 @@ class ExpensesProcessor:
         return expense_records
 
     def generate_expenses(self):
-        expense_lines = self.__get_expense_lines()
+        file_path = self.file_path
+        expense_lines = self.__get_expense_lines(self)
         expenses = self.__parse_expenses(expense_lines)
 
         return expenses
 
 
 if __name__ == "__main__":
-    file_path = ""
+    file_path = "./data/julio.txt"
     file_name = ""
     processor = ExpensesProcessor(file_path, file_name)
+    expenses = processor.generate_expenses()
+    print('Expenses: ', expenses)
