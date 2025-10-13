@@ -1,5 +1,5 @@
 class FileManager:
-    def read_file(file_path):
+    def read_file(self, file_path):
         def decorator(fn):
             def wrapper(*args, **kwargs):
                 with open(file_path, "r", encoding="utf-8") as file:
@@ -10,6 +10,6 @@ class FileManager:
 
         return decorator
 
-    def writeFile(file_name, path, extension):
+    def writeFile(self, file_name, path, extension):
         # Todo: implement writeFile(file_path)
         return
