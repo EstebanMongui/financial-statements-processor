@@ -4,22 +4,22 @@ from abc import ABC, abstractmethod
 FileTypes = Literal['txt', 'csv', 'pdf', 'xlsx']
 
 class File(ABC):
-    @abstractmethod
     @property
+    @abstractmethod
     def type(self) -> FileTypes:
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def name(self) -> str:
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def path(self) -> str:
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def password(self) -> str:
         pass

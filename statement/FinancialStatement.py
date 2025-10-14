@@ -1,7 +1,6 @@
 from abc import ABC
-from file import File
 
-class FinancialStatement(ABC, File):
+class FinancialStatement(ABC):
     def __init__(self):
         super().__init__()
         self.__file_path = '' 
