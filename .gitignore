@@ -45,3 +45,6 @@ share/python-wheels/
 # Usually these files are written by a Python script from a template
 # before
 
+
+# Data
+data/
