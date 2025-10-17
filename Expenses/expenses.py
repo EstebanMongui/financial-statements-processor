@@ -1,5 +1,6 @@
+from datetime import date
 class Expense:
-    __init__(self):
+    def __init__(self):
         self.__id = None
         self.__date = None
         self.__concept = None
@@ -14,7 +15,7 @@ class Expense:
     @date.setter
     def date(self, expense_date):
         if(not isinstance(expense_date, date)):
-            raise TypeError('The introduced date doesnt have a valid datetime format')
+            raise TypeError('The introduced date doesn\'t have a valid datetime format')
         if(expense_date > date.now()):
             raise ValueError('An expense date cannot be greater than the current date')
 
@@ -23,10 +24,11 @@ class Expense:
 
     @property
     def id(self):
-        return __id
+        return self.__id
 
+    #TODO: implement the function to generate a random id
     def __generate_id(self):
-        random_id = 'This should be implemented' #Todo: implement the function to generate a random id
+        random_id = 'This should be implemented'
         self.__id = random_id
 
     @property
@@ -34,7 +36,7 @@ class Expense:
         return self.__concept
 
     @concept.setter
-    def setConcept(self, concept: string):
+    def setConcept(self, concept: str):
         self.__concept = concept
         return self
 
@@ -48,3 +50,20 @@ class Expense:
         return self
 
     @property
+    def currency(self):
+        return self.__currency
+    
+    @currency.setter
+    def setCurrency(self, currency):
+        self.__currency = currency
+        return self
+    
+    @property
+    def payment_method(self):
+        return self.__payment_method
+     
+    @payment_method.setter
+    def setPaymentMethod(self, payment_method):
+        self.__payment_method = payment_method
+        return self
+    

@@ -23,3 +23,17 @@ class File(ABC):
     @abstractmethod
     def password(self) -> str:
         pass
+
+    @property
+    @abstractmethod
+    def is_encrypted(self) -> bool:
+        pass
+
+    @property
+    def file_path(self):
+        path = self.path
+
+        if not self.path.endswith("/"):
+            path += "/"
+
+        return path + self.name + "." + self.type

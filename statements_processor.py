@@ -3,16 +3,17 @@ import regex as re
 
 from FileManager import FileManager
 from processor import FinancialStatementsProcessor
-from file import File
+from statement import StatementFile
+from processor import Processor
 
 # Todo: this should be received as parameter
 date_pattern = r"[0-9]+[A-Za-z]{3}[0-9]+ +([A-Z]+ )+ +\$"
 fm = FileManager()
 
 
-class TxtExpensesProcessor(FinancialStatementsProcessor):
-    def __init__(self, statements_files: File, data_structure):
-        self.__statements_files = statements_files
+class TxtExpensesProcessor(FinancialStatementsProcessor, Processor):
+    def __init__(self, data_structure):
+        super().__init__()
         self.data_structure = data_structure
 
     def get_header(self, file, data_structure):
@@ -23,10 +24,6 @@ class TxtExpensesProcessor(FinancialStatementsProcessor):
                 # FIXME: write code to detect the head of the expenses table
                 head_line = line
         return head_line
-
-    @property
-    def statements_files(self):
-        return self.__statements_files
 
     def clean_movements(self, movements):
         spaces_pattern = r" {2,}"
@@ -43,8 +40,8 @@ class TxtExpensesProcessor(FinancialStatementsProcessor):
 
         return cleaned_movements 
     
-    def get_movements_by_file(self, statement_file):
-        @fm.read_file(statement_file['path'])
+    def get_movements_by_file(self, file_path):
+        @fm.read_file(file_path)
         def get_movements(file):
             movements = []
             for line in file:
@@ -56,11 +53,10 @@ class TxtExpensesProcessor(FinancialStatementsProcessor):
     
     def get_movements(self):
         all_movements = []
-        for statement_file in self.statements_files:
-            movements = self.get_movements_by_file(statement_file)
+        for statement_file in self.statement_files:
+            movements = self.get_movements_by_file(statement_file.file_path)
             all_movements.extend(movements)
         return all_movements 
-
 
     def process(self):
         movements = self.get_movements()
@@ -73,9 +69,9 @@ if __name__ == "__main__":
         "pattern": date_pattern,
     }
 
-    file_path = "./data/julio.txt"
-    file_name = "julio"
+    file = StatementFile("txt", "./data/", "julio")
 
-    processor = TxtExpensesProcessor([{'type': "txt", 'path': file_path, 'name': file_name}], data_structure)
+    processor = TxtExpensesProcessor(data_structure)
+    processor.statements_files = [file]
     movements = processor.process()
     print(movements)
