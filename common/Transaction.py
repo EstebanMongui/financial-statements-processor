@@ -1,7 +1,18 @@
 from abc import ABC, abstractmethod
-from common import Date
+from common import Date, Subject
 
-class Movement(ABC):
+class Transaction(ABC):
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
+    def type(self) -> str:
+        # TODO: implement the Type of TransactionType
+        pass
+
     @property
     @abstractmethod
     def date(self) -> Date:
@@ -9,22 +20,17 @@ class Movement(ABC):
 
     @property
     @abstractmethod
-    def concept(self):
-        pass
-    
-    @property
-    @abstractmethod
-    def place(self):
+    def sender(self) -> Subject:
         pass
 
     @property
     @abstractmethod
-    def currency(self) -> str:
+    def receiver(self) -> Subject:
         pass
 
     @property
     @abstractmethod
-    def amount(self) -> float:
+    def concept(self) -> str:
         pass
 
     @property
