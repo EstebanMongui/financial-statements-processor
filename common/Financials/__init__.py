@@ -1,2 +1,3 @@
 from .Currency import Currency
-from .Movement import Movement
+from ..Transaction import Transaction
+from .FinancialTransactionType import FinancialTransactionType 
